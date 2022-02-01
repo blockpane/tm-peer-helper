@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peer Config Helper</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="icon" href="img/favicon.png">
+</head>
+<body>
+<div class="container-xl" style="padding-top: 20px;">
+<div class="container-xl" style=" padding-top: 20px;">
+    <div class="row text-center border-bottom border-info">
+        <p class="h3">Tendermint Peer Helper
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+            </svg>
+        </button>
+        </p>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">What is this?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start">
+                        <p>
+                        This is a simple tool for configuring a Tendermint validator / sentry node's peering configuration in the config.toml file.
+                        It will generate a snippet of text that can be used to set the peers correctly.
+                        One of the most time-consuming parts of setting up new nodes is getting the P2P configuration correct to ensure all nodes are communicating, and
+                        this tool can help with that.
+                        </p>
+                        <ul>
+                            <li>A node ID, and IPv4 address are required for each entry.</li>
+                            <li>Providing an IPv6 address is optional. If provided, the Validator will attempt to connect outbound on IPv6 to sentries. This can provide resilience in the case of BGP routing failures.</li>
+                            <li>If the P2P port is left empty, it will default to 26656</li>
+                            <li>It is not necessary to fill in information for all validator nodes, if left empty it will be ignored.</li>
+                        </ul>
+                        <p>This tool does absolutely no error checking on the input.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="row border-bottom border-info">
+            <div class="mb-3">
+                <label for="seedInput" class="form-label">Seed Nodes:</label>
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="seedInput" aria-describedby="seedHelp" placeholder="nodeid@hostname:port">
+                <div id="seedHelp" class="form-text">Comma separated list of seed nodes.</div>
+            </div>
+            <div class="mb-3">
+                <label for="valInput" class="form-label">Validator Info:</label>
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="valInput" placeholder="nodeid">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="valIpInput" placeholder="IPv4 Address">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="valPortInput" placeholder="P2P Port Number">
+                <input class="form-check-input" type="checkbox" value="" id="valPrivInput" checked>
+                <label class="form-check-label" for="valPrivInput">
+                    Private peer?
+                </label>
+            </div>
+            <div class="mb-3">
+                <label for="sentry1Input" class="form-label">Sentry #1 info:</label>
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry1Input" placeholder="nodeid">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry1IpInput" placeholder="IPv4 Address">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry1Ip6Input" placeholder="IPv6 Address, format: [a:b::c]">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry1PortInput" placeholder="P2P Port Number">
+            </div>
+            <div class="mb-3">
+                <label for="sentry2Input" class="form-label">Sentry #2 info:</label>
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry2Input" placeholder="nodeid">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry2IpInput" placeholder="IPv4 Address">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry2Ip6Input" placeholder="IPv6 Address, format: [a:b::c]">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry2PortInput" placeholder="P2P Port Number">
+            </div>
+            <div class="mb-3">
+                <label for="sentry3Input" class="form-label">Sentry #3 info:</label>
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry3Input" placeholder="nodeid">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry3IpInput" placeholder="IPv4 Address">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry3Ip6Input" placeholder="IPv6 Address, format: [a:b::c]">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry3PortInput" placeholder="P2P Port Number">
+            </div>
+            <div class="mb-3">
+                <label for="sentry4Input" class="form-label">Sentry #4 info:</label>
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry4Input" placeholder="nodeid">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry4IpInput" placeholder="IPv4 Address">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry4Ip6Input" placeholder="IPv6 Address, format: [a:b::c]">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry4PortInput" placeholder="P2P Port Number">
+            </div>
+            <div class="mb-3">
+                <label for="sentry5Input" class="form-label">Sentry #5 info:</label>
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry5Input" placeholder="nodeid">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry5IpInput" placeholder="IPv4 Address">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry5Ip6Input" placeholder="IPv6 Address, format: [a:b::c]">
+                <input type="text" class="form-control" style="border-radius: 2px; border-color: #2a9fd6;color: #7eb70d" id="sentry5PortInput" placeholder="P2P Port Number">
+            </div>
+        </div>
+            <div style="padding-top: 10px;">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#configOut" onclick="buildConfigs()">
+                    Create config snippets
+                </button>
+
+                <!-- Modal -->
+                <div class="modal modal-fullscreen-xxl-down fade" id="configOut" tabindex="-1" aria-labelledby="configLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" style="min-width:90%">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="configLabel">Peer settings</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Validator settings:</h5>
+                                <pre id="valOutput"></pre>
+                                <h5>Sentry 1 settings:</h5>
+                                <pre id="sentry1Output"></pre>
+                                <h5>Sentry 2 settings:</h5>
+                                <pre id="sentry2Output"></pre>
+                                <h5>Sentry 3 settings:</h5>
+                                <pre id="sentry3Output"></pre>
+                                <h5>Sentry 4 settings:</h5>
+                                <pre id="sentry4Output"></pre>
+                                <h5>Sentry 5 settings:</h5>
+                                <pre id="sentry5Output"></pre>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="row text-center" style="padding-top: 30px;">
+        <p align="center">
+            <a href="https://blockpane.com"><img src="img/bp-logo-text.svg" height="30" alt="© 2021 Block Pane LLC."></a>&nbsp;
+            <a href="https://github.com/blockpane/cosmissed"><img src="img/GitHub-Mark.png" height="30"></a>
+        </p>
+    </div>
+</div>
+<script src="js/peers.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
