@@ -102,7 +102,7 @@ function createSentryConfig(myId, myIp, myPort, s1Id, s1Ip, s1port, s2Id, s2Ip, 
     if (myId === "") {
         return ""
     }
-    let config = `external_address = "${myId}@${myIp}:${myPort}"\npex = true\n`
+    let config = `external_address = "${myIp}:${myPort}"\npex = true\n`
     config += `seeds = "${seeds}"\n`
 
     let persistent = []
