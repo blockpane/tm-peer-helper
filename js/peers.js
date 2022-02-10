@@ -81,7 +81,7 @@ function createValConfig() {
         if (id !== "") {
             let tempIp = ipv4
             if (ipv6 !== "") {
-                tempIp = ipv6
+                tempIp = `[${ipv6}]`
             }
             persistent.push(`${id}@${tempIp}:${port}`)
             unconditional.push(id)
